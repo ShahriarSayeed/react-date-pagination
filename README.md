@@ -4,6 +4,11 @@
 
 [![NPM](https://img.shields.io/npm/v/react-date-pagination.svg)](https://www.npmjs.com/package/react-date-pagination) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
+## Important Note
+```text
+More features and improvements of this library coming soon. Keep touch with it if you love it :)
+```
+
 ## Install
 
 ```bash
