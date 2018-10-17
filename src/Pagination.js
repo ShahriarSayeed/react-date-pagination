@@ -4,7 +4,7 @@ import Paginator from 'paginator'
 import Page from './Page'
 import cx from 'classnames'
 
-import './pagination.css'
+import './pagination.css';
 
 const ulStyle={
   minWidth: '696px',
