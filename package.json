@@ -9,7 +9,7 @@
   "main": "lib/index.js",
   "module": "es/index.js",
   "keywords": [
-    "react-component"
+    "react date pagination"
   ],
   "files": [
     "css",
