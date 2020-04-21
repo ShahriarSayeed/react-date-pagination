@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import moment from 'moment'
-
 import './pagination.css'
 
 const navListStyle={
@@ -24,7 +23,7 @@ export default class Page extends Component {
     isActive: PropTypes.bool.isRequired,
     isDisabled: PropTypes.bool,
     isNavigationPage: PropTypes.bool,
-    date: PropTypes.string
+    date: PropTypes.object
   };
 
   static defaultProps = {
@@ -53,7 +52,10 @@ export default class Page extends Component {
       pageText,
       isActive,
       isDisabled,
-      date
+      date,
+      locale,
+      dateFormatActive,
+      dateFormat
     } = this.props
 
     let elem = this.props.isNavigationPage === true
@@ -70,11 +72,11 @@ export default class Page extends Component {
         <li className={isActive?'active':''} onClick={(e) => this.handleClick(e)}>
           {isActive ?
             <a href={'#'}>
-              {moment(date.date, 'YYYY-MM-DD').format('ddd Do MMM YYYY')}
+              {moment(date.date, 'YYYY-MM-DD').locale(locale).format(dateFormatActive)}
             </a>
             :
             <a href={'#'}>
-              {moment(date.date, 'YYYY-MM-DD').format('ddd Do')}
+              {moment(date.date, 'YYYY-MM-DD').locale(locale).format(dateFormat)}
             </a>
           }
         </li>
