@@ -35,7 +35,14 @@ export default class Pagination extends React.Component {
     linkClassNext: PropTypes.string,
     hideFirstLastPages: PropTypes.bool,
     getPageUrl: PropTypes.func,
-    days: PropTypes.array
+    days: PropTypes.array,
+    locale: PropTypes.string,
+    dateFormat: PropTypes.string,
+    dateFormatActive: PropTypes.string,
+    prevPageText: PropTypes.string,
+    firstPageText: PropTypes.string,
+    nextPageText: PropTypes.string,
+    lastPageText: PropTypes.string,
   };
 
   static defaultProps = {
@@ -51,7 +58,10 @@ export default class Pagination extends React.Component {
     linkClass: undefined,
     activeLinkClass: undefined,
     hideFirstLastPages: false,
-    getPageUrl: (i) => '#'
+    getPageUrl: (i) => '#',
+    locale: 'gb',
+    dateFormatActive: 'ddd Do MMM YYYY',
+    dateFormat: 'ddd Do'
   };
 
   componentWillUnmount() {
@@ -88,8 +98,10 @@ export default class Pagination extends React.Component {
       itemsCountPerPage,
       pageRangeDisplayed,
       activePage,
+      firstPageText,
       prevPageText,
       nextPageText,
+      lastPageText,
       totalItemsCount,
       onChange,
       activeClass,
@@ -101,15 +113,18 @@ export default class Pagination extends React.Component {
       linkClassPrev,
       linkClassNext,
       getPageUrl,
-      days
+      days,
+      locale,
+      dateFormatActive,
+      dateFormat,
     } = this.props
 
     this.paginationInfo = new Paginator(
       itemsCountPerPage,
-      pageRangeDisplayed
+      pageRangeDisplayed,
     ).build(totalItemsCount, activePage)
 
-    if (this.paginationInfo.next_page === this.paginationInfo.total_pages) {
+    if (this.paginationInfo.next_page === this.paginationInfo.total_pages + 1) {
       this.paginationInfo.has_next_page = false
     }
 
@@ -129,6 +144,9 @@ export default class Pagination extends React.Component {
           activeClass={activeClass}
           activeLinkClass={activeLinkClass}
           date={date}
+          locale={locale}
+          dateFormatActive={dateFormatActive}
+          dateFormat={dateFormat}
         />
       )
     }
@@ -147,6 +165,20 @@ export default class Pagination extends React.Component {
       />
     )
 
+    this.isFirstPageVisible(this.paginationInfo.has_previous_page) &&
+    pages.unshift(
+      <Page
+        key={'first'}
+        pageNumber={1}
+        onClick={onChange}
+        pageText={firstPageText}
+        isDisabled={!this.paginationInfo.has_previous_page}
+        itemClass={cx(itemClass, itemClassPrev)}
+        linkClass={cx(linkClass, linkClassPrev)}
+        isNavigationPage={true}
+      />
+    )
+
     this.isNextPageVisible(this.paginationInfo.has_next_page) &&
     pages.push(
       <Page
@@ -154,6 +186,20 @@ export default class Pagination extends React.Component {
         pageNumber={this.paginationInfo.next_page}
         onClick={onChange}
         pageText={nextPageText}
+        isDisabled={!this.paginationInfo.has_next_page}
+        itemClass={cx(itemClass, itemClassNext)}
+        linkClass={cx(linkClass, linkClassNext)}
+        isNavigationPage={true}
+      />
+    )
+
+    this.isLastPageVisible(this.paginationInfo.has_next_page) &&
+    pages.push(
+      <Page
+        key={'last'}
+        pageNumber={this.paginationInfo.total_pages}
+        onClick={onChange}
+        pageText={lastPageText}
         isDisabled={!this.paginationInfo.has_next_page}
         itemClass={cx(itemClass, itemClassNext)}
         linkClass={cx(linkClass, linkClassNext)}
